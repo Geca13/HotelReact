@@ -12,20 +12,34 @@ export default class SingleRoom extends Component {
         this.state = {
             id:this.props.match.params.id,
             defaultBcg
-        }
+        };
     }
 
     static contextType = RoomContext;
 
     render() {
 
-        const {getRoom} = this.context; 
+        const { getRoom } = this.context; 
         const room = getRoom(this.state.id);
-        
-        return (
-            <div>
-                hello from single room
+        if(!room) {
+            return (
+            <div className='error'>
+                <h3>no such room can't be found</h3> 
+                <Link to = '/rooms' className='btn-primary'>
+                    back to rooms
+                </Link>
             </div>
+            );
+        }
+        const {name , description, capacity, size,price,extras,breakfast,pets,images} = room;
+        return (
+            <Hero hero='roomsHero'>
+                <Banner title={`${name} room`}>
+                    <Link to='/rooms' className='btn-primary'>
+                        back to rooms
+                    </Link>
+                </Banner>
+            </Hero>
         )
     }
 }
